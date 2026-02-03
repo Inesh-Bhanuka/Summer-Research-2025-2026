@@ -1,0 +1,116 @@
+{
+  "selected_board": "ZCU102",
+  "boards": {
+    "ZCU102": {
+      "name": "Xilinx ZCU102 Evaluation Board",
+      "rails": {
+        "VCCINT": {
+          "driver_type": "pmbus",
+          "connection": {
+            "bus_id": 4,
+            "address": "0x13"
+          },
+          "commands": {
+            "set_voltage": "0x21",
+            "read_voltage": "0x8B",
+            "read_current": "0x8C"
+          },
+          "format": {
+            "voltage_mode": "linear16_fixed",
+            "scale_factor": 4096.0,
+            "current_mode": "linear11"
+          },
+          "limits": {
+            "nominal": 0.85,
+            "min": 0.57,
+            "max": 0.85,
+            "slew_wait_ms": 100
+          }
+        },
+        "VCCBRAM": {
+          "driver_type": "pmbus",
+          "connection": {
+            "bus_id": 4,
+            "address": "0x14"
+          },
+          "commands": {
+            "set_voltage": "0x21",
+            "read_voltage": "0x8B",
+            "read_current": "0x8C"
+          },
+          "format": {
+            "voltage_mode": "linear16_fixed",
+            "scale_factor": 4096.0,
+            "current_mode": "linear11"
+          },
+          "limits": {
+            "nominal": 0.85,
+            "min": 0.80,
+            "max": 0.90
+          }
+        }
+      }
+    },
+    "KV260": {
+      "name": "Kria KV260 Vision AI Kit",
+      "rails": {
+        "VCC_SOM": {
+          "driver_type": "sysfs_monitor",
+          "connection": {
+            "driver_match": "ina260",
+            "search_dir": "/sys/class/hwmon"
+          },
+          "files": {
+            "voltage": "in1_input",
+            "voltage_div": 1000.0,
+            "current": "curr1_input",
+            "current_div": 1000.0,
+            "power": "power1_input",
+            "power_div": 1000000.0
+          }
+        },
+        "VCCINT": {
+          "driver_type": "sysfs_regulator",
+          "connection": {
+            "regulator_name": "buck1"
+          },
+          "format": {
+            "unit_div": 1000000.0
+          },
+          "limits": {
+            "nominal": 0.72,
+            "min": 0.65,
+            "max": 0.72,
+            "slew_wait_ms": 50
+          }
+        }
+      }
+    }
+  },
+  "workloads": {
+    "ResNet50": {
+      "cwd": "/home/root/Vitis-AI/examples/vai_library/samples/classification",
+      "executable": "./test_jpeg_classification",
+      "args": "resnet50 images/001.JPEG",
+      "target_rail": "VCCINT",
+      "nominal_voltage": 0.85,
+      "regex": "r\\.score\\s+([\\d\\.]+)"
+    },
+    "ResNet18": {
+      "cwd": "/home/root/Vitis-AI/examples/vai_library/samples/classification",
+      "executable": "./test_jpeg_classification",
+      "args": "resnet18_pt images/002.JPEG",
+      "target_rail": "VCCINT",
+      "nominal_voltage": 0.85,
+      "regex": "r\\.score\\s+([\\d\\.]+)"
+    },
+    "SqueezeNet": {
+      "cwd": "/home/root/Vitis-AI/examples/vai_library/samples/classification",
+      "executable": "./test_jpeg_classification_squeezenet",
+      "args": "squeezenet_pt images/001.JPEG",
+      "target_rail": "VCCINT",
+      "nominal_voltage": 0.85,
+      "regex": "squeezenet_pt\\s+\\d+\\s+([\\d\\.]+)"
+    }
+  }
+}

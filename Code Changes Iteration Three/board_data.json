@@ -1,0 +1,72 @@
+{
+  "selected_board": "ZCU102", 
+  "boards": {
+    "ZCU102": {
+      "name": "ZCU102 Evaluation Board",
+      "i2c_bus_id": 4,
+      "rails": {
+        "VCCINT": {
+          "driver_type": "pmbus",
+          "read_only": false,
+          "connection": { "bus_id": 4, "address": "0x13" },
+          "commands": { "set_voltage": "0x21", "read_voltage": "0x8B", "read_current": "0x8C" },
+          "format": { "scale_factor": 4096.0 },
+          "limits": { "nominal": 0.85, "min": 0.60, "max": 0.85 }
+        },
+        "VCCBRAM": {
+          "driver_type": "pmbus",
+          "read_only": false,
+          "connection": { "bus_id": 4, "address": "0x14" },
+          "commands": { "set_voltage": "0x21", "read_voltage": "0x8B", "read_current": "0x8C" },
+          "format": { "scale_factor": 4096.0 },
+          "limits": { "nominal": 0.85, "min": 0.80, "max": 0.90 }
+        }
+      }
+    },
+    "KV260": {
+      "name": "Kria KV260 Vision AI Kit",
+      "rails": {
+        "VCC_SOM": {
+          "driver_type": "sysfs_monitor",
+          "read_only": true,
+          "connection": { 
+            "driver_match": "ina260", 
+            "sysfs_glob": "/sys/class/hwmon/hwmon*/name" 
+          },
+          "files": { "voltage": "in1_input", "current": "curr1_input", "power": "power1_input", "scale_div": 1000.0 }
+        },
+        "BUCK1_CORE": {
+          "driver_type": "sysfs_regulator",
+          "read_only": false,
+          "connection": { 
+            "sysfs_path": "/sys/class/regulator/regulator.5/microvolts" 
+          },
+          "limits": { "nominal": 0.72, "min": 0.65, "max": 0.72 }
+        }
+      }
+    }
+  },
+  "workloads": {
+    "ResNet50": {
+      "cwd": "/home/root/Vitis-AI/examples/vai_runtime/resnet50",
+      "executable": "./resnet50",
+      "args": "/usr/share/vitis_ai_library/models/resnet50/resnet50.xmodel",
+      "target_rail": "VCCINT",
+      "nominal_voltage": 0.85
+    },
+    "ResNet18": {
+      "cwd": "/home/root/Vitis-AI/examples/vai_library/samples/classification",
+      "executable": "./test_jpeg_classification",
+      "args": "resnet18_pt images/002.JPEG",
+      "target_rail": "VCCINT",
+      "nominal_voltage": 0.85
+    },
+    "SqueezeNet": {
+      "cwd": "/home/root/Vitis-AI/examples/vai_runtime/squeezenet_pytorch",
+      "executable": "./squeezenet_pytorch",
+      "args": "/usr/share/vitis_ai_library/models/squeezenet_pt/squeezenet_pt.xmodel",
+      "target_rail": "VCCINT",
+      "nominal_voltage": 0.85
+    }
+  }
+}

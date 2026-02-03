@@ -1,0 +1,141 @@
+{
+  "board_meta": {
+    "name": "zcu102",
+    "revision": "3.5",
+    "i2c_bus_id": 4,
+    "description": "Zynq UltraScale+ MPSoC Development Board"
+  },
+  "rails": {
+    "VCCINT": {
+      "i2c_address": "0x13",
+      "description": "FPGA Core Logic Supply",
+      "commands": {
+        "vout_cmd": "0x21",
+        "read_vout": "0x8B",
+        "read_iout": "0x8C"
+      },
+      "format": {
+        "mode": "linear_16",
+        "scale_factor": 4096
+      },
+      "limits": {
+        "min_voltage_v": 0.60,
+        "max_voltage_v": 0.85,
+        "max_current_a": 50.0
+      },
+      "monitoring": {
+        "driver_name_match": "ina226_u79",
+        "fallback_sysfs_path": "/sys/class/hwmon/hwmon2"
+      }
+    },
+    "VCCBRAM": {
+      "i2c_address": "0x14",
+      "description": "Block RAM Supply",
+      "commands": {
+        "vout_cmd": "0x21",
+        "read_vout": "0x8B",
+        "read_iout": "0x8C"
+      },
+      "format": {
+        "mode": "linear_16",
+        "scale_factor": 4096
+      },
+      "limits": {
+        "min_voltage_v": 0.80,
+        "max_voltage_v": 0.90,
+        "max_current_a": 10.0
+      },
+      "monitoring": {
+        "driver_name_match": "ina226_u81",
+        "fallback_sysfs_path": "/sys/class/hwmon/hwmon3"
+      }
+    },
+    "VCCAUX": {
+      "description": "Auxiliary Supply",
+      "monitoring": { "driver_name_match": "ina226_u80" }
+    },
+    "VCC3V3": {
+      "description": "3.3V Board Supply",
+      "monitoring": { "driver_name_match": "ina226_u16" }
+    },
+    "VCCO_PSDDR_504": {
+      "description": "DDR Power",
+      "monitoring": { "driver_name_match": "ina226_u93" }
+    },
+    "MGTRAVCC": {
+      "description": "GTR Transceiver Supply",
+      "monitoring": { "driver_name_match": "ina226_u85" }
+    },
+    "VCCOPS3": {
+      "description": "PS Bank 3 Supply",
+      "monitoring": { "driver_name_match": "ina226_u15" }
+    },
+    "VCCPSAUX": {
+      "description": "PS Auxiliary",
+      "monitoring": { "driver_name_match": "ina226_u78" }
+    },
+    "MGTAVTT": {
+      "description": "GTH Transceiver Termination",
+      "monitoring": { "driver_name_match": "ina226_u75" }
+    },
+    "VCCPSINTFP": {
+      "description": "PS Internal Full Power",
+      "monitoring": { "driver_name_match": "ina226_u76" }
+    },
+    "CADJ_FMC": {
+      "description": "FMC Adjustable Voltage",
+      "monitoring": { "driver_name_match": "ina226_u65" }
+    },
+    "VCC1V2": {
+      "description": "1.2V Supply",
+      "monitoring": { "driver_name_match": "ina226_u84" }
+    },
+    "VCCOPS": {
+      "description": "PS Output Supply",
+      "monitoring": { "driver_name_match": "ina226_u88" }
+    },
+    "MGTRAVTT": {
+      "description": "GTR Transceiver Termination",
+      "monitoring": { "driver_name_match": "ina226_u86" }
+    },
+    "VCCPSDDRPLL": {
+      "description": "PS DDR PLL",
+      "monitoring": { "driver_name_match": "ina226_u92" }
+    },
+    "VCCPSINTLP": {
+      "description": "PS Internal Low Power",
+      "monitoring": { "driver_name_match": "ina226_u77" }
+    },
+    "VCCPSPLL": {
+      "description": "PS PLL Supply",
+      "monitoring": { "driver_name_match": "ina226_u87" }
+    },
+    "MGTAVCC": {
+      "description": "GTH Transceiver Supply",
+      "monitoring": { "driver_name_match": "ina226_u74" }
+    }
+  },
+  "workloads": {
+    "ResNet50": {
+      "cwd": "/home/root/Vitis-AI/examples/vai_runtime/resnet50",
+      "executable": "./resnet50",
+      "args": "/usr/share/vitis_ai_library/models/resnet50/resnet50.xmodel",
+      "target_rail": "VCCINT",
+      "nominal_voltage": 0.85
+    },
+    "ResNet18": {
+      "cwd": "/home/root/Vitis-AI/examples/vai_library/samples/classification",
+      "executable": "./test_jpeg_classification",
+      "args": "resnet18_pt images/002.JPEG",
+      "target_rail": "VCCINT",
+      "nominal_voltage": 0.85
+    },
+    "SqueezeNet": {
+      "cwd": "/home/root/Vitis-AI/examples/vai_runtime/squeezenet_pytorch",
+      "executable": "./squeezenet_pytorch",
+      "args": "/usr/share/vitis_ai_library/models/squeezenet_pt/squeezenet_pt.xmodel",
+      "target_rail": "VCCINT",
+      "nominal_voltage": 0.85
+    }
+  }
+}
